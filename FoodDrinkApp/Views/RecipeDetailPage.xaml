@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FoodDrinkApp.ViewModels"
+             xmlns:converters="clr-namespace:FoodDrinkApp.Converters"
+             x:Class="FoodDrinkApp.Views.RecipeDetailPage"
+             x:DataType="vm:RecipeDetailViewModel"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:FavoriteGlyphConverter x:Key="FavoriteGlyphConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView Padding="16">
+        <VerticalStackLayout Spacing="16">
+            <Border Padding="20"
+                    BackgroundColor="{DynamicResource CardBackgroundColor}"
+                    Stroke="{DynamicResource AccentColor}"
+                    StrokeThickness="1">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="{Binding Recipe.Emoji}"
+                           FontSize="48"
+                           HorizontalOptions="Center"
+                           SemanticProperties.Description="{Binding Recipe.Name}" />
+                    <Label Text="{Binding Recipe.Name}"
+                           FontAttributes="Bold"
+                           FontSize="{DynamicResource TitleFontSize}"
+                           TextColor="{DynamicResource PrimaryTextColor}"
+                           SemanticProperties.HeadingLevel="Level1" />
+                    <Label Text="{Binding Recipe.Description}"
+                           FontSize="{DynamicResource BaseFontSize}"
+                           TextColor="{DynamicResource SecondaryTextColor}" />
+                    <Label Text="{Binding Recipe.Calories, StringFormat='Energy: {0} kcal'}"
+                           FontSize="{DynamicResource BaseFontSize}"
+                           TextColor="{DynamicResource AccentColor}" />
+                    <Label Text="{Binding Recipe.Category, StringFormat='Category: {0}'}"
+                           FontSize="{DynamicResource BaseFontSize}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Label Text="Cooking steps"
+                   FontAttributes="Bold"
+                   FontSize="{DynamicResource SubtitleFontSize}"
+                   SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="{Binding Recipe.Steps}"
+                   FontSize="{DynamicResource BaseFontSize}"
+                   LineBreakMode="WordWrap"
+                   TextColor="{DynamicResource PrimaryTextColor}" />
+
+            <HorizontalStackLayout Spacing="12">
+                <Button Text="Read aloud"
+                        Command="{Binding ReadStepsAloudCommand}"
+                        SemanticProperties.Hint="Read recipe steps using text to speech" />
+                <Button Text="{Binding Recipe.IsFavorite, Converter={StaticResource FavoriteGlyphConverter}}"
+                        Command="{Binding ToggleFavoriteCommand}"
+                        SemanticProperties.Hint="Toggle favourite recipe" />
+            </HorizontalStackLayout>
+
+            <Label Text="{Binding StatusMessage}"
+                   FontSize="{DynamicResource BaseFontSize}"
+                   TextColor="{DynamicResource SecondaryTextColor}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

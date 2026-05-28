@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FoodDrinkApp.ViewModels"
+             x:Class="FoodDrinkApp.Views.SettingsPage"
+             x:DataType="vm:SettingsViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView Padding="16">
+        <VerticalStackLayout Spacing="16">
+            <Label Text="Accessibility options"
+                   FontSize="{DynamicResource TitleFontSize}"
+                   SemanticProperties.HeadingLevel="Level1" />
+            <Label Text="Adjust text size, contrast, and theme to improve readability and WCAG compliance."
+                   FontSize="{DynamicResource BaseFontSize}"
+                   TextColor="{DynamicResource SecondaryTextColor}" />
+
+            <Border Padding="16"
+                    BackgroundColor="{DynamicResource CardBackgroundColor}"
+                    Stroke="{DynamicResource AccentColor}"
+                    StrokeThickness="1">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Large text"
+                               VerticalOptions="Center"
+                               FontSize="{DynamicResource BaseFontSize}" />
+                        <Switch Grid.Column="1"
+                                IsToggled="{Binding UseLargeFont}"
+                                SemanticProperties.Description="Enable larger text" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="High contrast"
+                               VerticalOptions="Center"
+                               FontSize="{DynamicResource BaseFontSize}" />
+                        <Switch Grid.Column="1"
+                                IsToggled="{Binding UseHighContrast}"
+                                SemanticProperties.Description="Enable high contrast colours" />
+                    </Grid>
+                    <Label Text="App theme"
+                           FontSize="{DynamicResource BaseFontSize}" />
+                    <Picker ItemsSource="{Binding ThemeOptions}"
+                            SelectedIndex="{Binding SelectedThemeIndex}"
+                            SemanticProperties.Hint="Choose light, dark, or system theme" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="Reset accessibility settings"
+                    Command="{Binding ResetAccessibilityCommand}" />
+
+            <Label Text="{Binding StatusMessage}"
+                   FontSize="{DynamicResource BaseFontSize}"
+                   TextColor="{DynamicResource SecondaryTextColor}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
