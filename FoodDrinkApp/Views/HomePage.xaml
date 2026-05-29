@@ -46,8 +46,8 @@
                     Command="{Binding RefreshRecipesCommand}"
                     SemanticProperties.Hint="Refresh recipe list from cache" />
             <Switch IsToggled="{Binding ShowFavoritesOnly}"
-                    SemanticProperties.Description="Show favourites only" />
-            <Label Text="Favourites only"
+                    SemanticProperties.Description="Show favorites only" />
+            <Label Text="Favorites only"
                    VerticalOptions="Center"
                    FontSize="{DynamicResource BaseFontSize}" />
         </HorizontalStackLayout>
@@ -99,7 +99,7 @@
                                             CommandParameter="{Binding .}"
                                             BackgroundColor="Transparent"
                                             TextColor="{DynamicResource AccentColor}"
-                                            SemanticProperties.Hint="Toggle favourite recipe" />
+                                            SemanticProperties.Hint="Toggle favorite recipe" />
                                     <Button Text="Open"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenRecipeCommand}"
                                             CommandParameter="{Binding .}"

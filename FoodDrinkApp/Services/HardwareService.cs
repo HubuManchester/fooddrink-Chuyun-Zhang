@@ -8,7 +8,7 @@ using Microsoft.Maui.Media;
 namespace FoodDrinkApp.Services;
 
 /// <summary>
-/// Centralises mobile hardware access for camera, location, speech, TTS, and haptics.
+/// Centralizes mobile hardware access for camera, location, speech, TTS, and haptics.
 /// </summary>
 public class HardwareService
 {

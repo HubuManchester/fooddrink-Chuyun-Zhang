@@ -37,7 +37,7 @@
                                FontSize="{DynamicResource BaseFontSize}" />
                         <Switch Grid.Column="1"
                                 IsToggled="{Binding UseHighContrast}"
-                                SemanticProperties.Description="Enable high contrast colours" />
+                                SemanticProperties.Description="Enable high contrast colors" />
                     </Grid>
                     <Label Text="App theme"
                            FontSize="{DynamicResource BaseFontSize}" />

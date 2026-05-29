@@ -1,58 +1,86 @@
-# 食光营养助手
+# FoodDrinkApp
 
-食光营养助手是一个基于 .NET MAUI 的“食品与饮品”课程项目应用。应用可以记录食品和饮品，展示营养摘要，验证用户输入，并演示移动设备硬件功能。
+A .NET MAUI mobile app for exploring recipes and nutrition, built for the **Food and Drink** coursework theme using **MVVM**, **XAML UI**, and **on-device hardware APIs**.
 
-## 主要功能
+## Features
 
-- 食品和饮品列表，支持搜索和详情页。
-- 添加记录表单，检查必填项和营养数值。
-- 使用相机拍摄食品照片并预览。
-- 使用定位记录用餐或购买地点。
-- 使用文字转语音朗读营养摘要和帮助内容。
-- 使用震动与触觉反馈提供操作提醒。
-- 支持主题切换和大字体模式。
-- 包含语义标签、屏幕阅读器播报和清晰的验证提示。
+- Recipe list with calories, categories, search, and favorites
+- Recipe detail view with step-by-step instructions
+- SQLite offline cache for recipes and favorite persistence
+- Location-based regional recommendations
+- Voice search using the device microphone
+- Dedicated hardware demo page for assessment video walkthrough
+- Accessibility settings: large text, high contrast, light/dark/system theme
 
-## 评分点覆盖
+## Mobile hardware used
 
-- UI/UX 与无障碍：XAML 页面、底部导航、一致的视觉风格、深色模式、语义描述和屏幕阅读器播报。
-- 移动硬件：相机、定位、文字转语音、震动和触觉反馈。
-- 功能完整性：列表、搜索、添加、详情、设置和硬件演示流程。
-- 验证与错误处理：必填项检查、数字检查、权限错误和硬件不可用提示。
-- 代码质量：模型和服务分离、命名清晰、可复用的目录服务，以及范围清晰的页面代码。
-- 部署：面向 Android 和 Windows 的 .NET MAUI 跨平台应用。
-- GitHub 使用：建议持续提交，例如 `添加食品列表`、`实现硬件页面`、`添加输入验证`。
+| Hardware | Where it is used |
+|----------|------------------|
+| Camera | Capture a food photo on the Hardware Demo page |
+| Location / Geolocation | Nearby recipe recommendations on Home and Hardware Demo |
+| Microphone / Speech recognition | Voice search on Home; speech demo on Hardware Demo |
+| Text-to-speech | Read recipe steps on Detail and Hardware Demo pages |
+| Vibration / Haptic feedback | Triggered when adding/removing favorites |
 
-## 运行方式
+All hardware calls are centralized in `Services/HardwareService.cs`.
 
-使用安装了 .NET MAUI 工作负载的 Visual Studio 2022 打开 `FoodDrinkApp.csproj` 或 `FoodDrinkApp.sln`。
+## Project structure
 
-推荐演示目标：
-
-- Android 模拟器
-- Windows Machine
-
-Windows 构建命令：
-
-```powershell
-dotnet build .\FoodDrinkApp.csproj -f net9.0-windows10.0.19041.0
+```
+FoodDrinkApp/
+├── Models/
+├── ViewModels/
+├── Views/
+├── Services/
+├── Helpers/
+└── Resources/Styles/
 ```
 
-Android 构建命令：
+## Requirements
 
-```powershell
-dotnet build .\FoodDrinkApp.csproj -f net9.0-android
+- .NET 9 SDK
+- .NET MAUI workload (`maui`, `android`, `maui-windows`)
+- Visual Studio 2022 17.14+ with Mobile development workload, **or** VS Code + MAUI extension
+- Android SDK / emulator for deployment video
+
+## How to run
+
+1. Clone the repository.
+2. Open `FoodDrinkApp.sln` or the folder in Visual Studio.
+3. Select an Android emulator (phone or tablet) or Windows target.
+4. Build and run:
+
+```bash
+cd FoodDrinkApp
+dotnet build -f net9.0-android
+dotnet build -t:Run -f net9.0-android
 ```
 
-本项目通过 `Directory.Build.props` 将构建输出放到 `C:\MauiBuild\NutriTrack\`，用于规避 Android 打包工具在中文路径下的 `assets` 路径问题。
+### Emulator tips for the demo video
 
-## 录屏演示清单
+- **Camera**: use the emulator extended controls to load a sample image.
+- **Location**: set a custom GPS location in emulator settings (e.g. Manchester or Rome).
+- **Microphone**: enable host microphone passthrough in the emulator.
+- **Vibration**: show the code in `HardwareService.Vibrate()` if the emulator cannot vibrate.
 
-- 说明“食品与饮品”主题和“食光营养助手”的应用概念。
-- 展示搜索、详情页和添加新记录。
-- 演示不填必填项、输入非法数字时的验证提示。
-- 演示相机、定位、文字转语音、震动和触觉反馈。
-- 展示深色模式和大字体模式。
-- 展示关键代码文件：模型、服务、页面和 Android 权限配置。
-- 展示 Android 和 Windows 部署效果。
-- 展示 GitHub 提交历史和 README。
+## Accessibility (WCAG)
+
+- Minimum 44pt touch targets on buttons and switches
+- Semantic labels and headings for screen readers
+- Dynamic theme support (light / dark / system)
+- Large text and high contrast toggles in Settings
+- User-friendly validation and permission error messages
+
+## Assessment checklist
+
+- [ ] Demo app on Android phone emulator
+- [ ] Demo same app on Android tablet emulator (or Windows)
+- [ ] Show list, detail, search, favorites, settings
+- [ ] Show all 5 hardware features
+- [ ] Show validation (empty search) and permission denial handling
+- [ ] Push regular commits to GitHub
+- [ ] Submit repository link on Moodle
+
+## Author
+
+Coursework project — Manchester Metropolitan University, Mobile Application Development.

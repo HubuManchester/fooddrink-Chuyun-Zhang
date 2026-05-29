@@ -58,7 +58,7 @@
                         SemanticProperties.Hint="Read recipe steps using text to speech" />
                 <Button Text="{Binding Recipe.IsFavorite, Converter={StaticResource FavoriteGlyphConverter}}"
                         Command="{Binding ToggleFavoriteCommand}"
-                        SemanticProperties.Hint="Toggle favourite recipe" />
+                        SemanticProperties.Hint="Toggle favorite recipe" />
             </HorizontalStackLayout>
 
             <Label Text="{Binding StatusMessage}"

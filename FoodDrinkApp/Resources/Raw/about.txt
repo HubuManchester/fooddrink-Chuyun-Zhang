@@ -1,1 +1,1 @@
-食光营养助手示例数据与课程项目资源。
+Sample data and project resources for the FoodDrinkApp coursework application.

@@ -83,8 +83,8 @@ public partial class RecipeDetailViewModel : BaseViewModel
             _hardwareService.Vibrate();
             Recipe = await _dataStore.GetRecipeAsync(Recipe.Id);
             StatusMessage = Recipe?.IsFavorite == true
-                ? "Recipe saved to favourites."
-                : "Recipe removed from favourites.";
-        }, "Unable to update favourite");
+                ? "Recipe saved to favorites."
+                : "Recipe removed from favorites.";
+        }, "Unable to update favorite");
     }
 }

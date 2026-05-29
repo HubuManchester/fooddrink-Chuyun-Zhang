@@ -121,9 +121,9 @@ public partial class HomeViewModel : BaseViewModel
             _hardwareService.Vibrate();
             await LoadRecipesAsync();
             StatusMessage = wasFavorite
-                ? $"Removed {item.Name} from favourites."
-                : $"Added {item.Name} to favourites.";
-        }, "Unable to update favourite");
+                ? $"Removed {item.Name} from favorites."
+                : $"Added {item.Name} to favorites.";
+        }, "Unable to update favorite");
     }
 
     [RelayCommand]
@@ -148,7 +148,7 @@ public partial class HomeViewModel : BaseViewModel
         {
             var recipes = await _dataStore.GetRecipesAsync();
             ReplaceRecipes(ShowFavoritesOnly ? recipes.Where(r => r.IsFavorite) : recipes);
-        }, "Unable to filter favourites");
+        }, "Unable to filter favorites");
     }
 
     private void ReplaceRecipes(IEnumerable<FoodItem> recipes)

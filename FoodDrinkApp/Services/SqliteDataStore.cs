@@ -4,7 +4,7 @@ using SQLite;
 namespace FoodDrinkApp.Services;
 
 /// <summary>
-/// SQLite-backed cache for offline recipe access and favourite persistence.
+/// SQLite-backed cache for offline recipe access and favorite persistence.
 /// </summary>
 public class SqliteDataStore : IDataStore
 {
@@ -60,17 +60,17 @@ public class SqliteDataStore : IDataStore
 
         if (forceRefresh)
         {
-            // Simulate a network refresh while keeping favourites intact.
-            var favourites = (await db.Table<FoodItemRecord>().Where(r => r.IsFavorite).ToListAsync())
+            // Simulate a network refresh while keeping favorites intact.
+            var favorites = (await db.Table<FoodItemRecord>().Where(r => r.IsFavorite).ToListAsync())
                 .ToDictionary(r => r.Id, r => r.IsFavorite);
 
             await db.DeleteAllAsync<FoodItemRecord>();
             var refreshed = MockDataStore.GetSeedRecipes()
                 .Select(item =>
                 {
-                    if (favourites.TryGetValue(item.Id, out var isFavourite))
+                    if (favorites.TryGetValue(item.Id, out var isFavorite))
                     {
-                        item.IsFavorite = isFavourite;
+                        item.IsFavorite = isFavorite;
                     }
 
                     return FoodItemRecord.FromModel(item);
