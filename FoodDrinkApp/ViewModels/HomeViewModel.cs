@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FoodDrinkApp.Helpers;
 using FoodDrinkApp.Models;
 using FoodDrinkApp.Services;
 
@@ -134,7 +135,7 @@ public partial class HomeViewModel : BaseViewModel
             return;
         }
 
-        await Shell.Current.GoToAsync($"{nameof(Views.RecipeDetailPage)}?RecipeId={item.Id}");
+        await Shell.Current.GoToAsync($"{NavigationRoutes.RecipeDetail}?{NavigationRoutes.RecipeIdQueryKey}={item.Id}");
     }
 
     partial void OnShowFavoritesOnlyChanged(bool value)

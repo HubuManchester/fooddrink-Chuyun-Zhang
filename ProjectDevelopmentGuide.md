@@ -33,7 +33,8 @@ FoodDrinkApp/
 ├── ViewModels/
 ├── Views/
 ├── Services/
-├── Helpers/
+├── Helpers/          (NavigationRoutes, AccessibilityHelper)
+├── Converters/
 ├── Platforms/
 └── Resources/
 ```

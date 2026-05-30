@@ -1,4 +1,4 @@
-﻿using FoodDrinkApp.Helpers;
+using FoodDrinkApp.Helpers;
 using FoodDrinkApp.Services;
 
 namespace FoodDrinkApp;

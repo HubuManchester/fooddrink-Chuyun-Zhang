@@ -1,1 +1,0 @@
-Sample data and project resources for the FoodDrinkApp coursework application.

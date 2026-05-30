@@ -10,12 +10,12 @@ public partial class HomePage : ContentPage
         BindingContext = viewModel;
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
         if (BindingContext is HomeViewModel viewModel)
         {
-            await viewModel.LoadRecipesCommand.ExecuteAsync(null);
+            _ = viewModel.LoadRecipesCommand.ExecuteAsync(null);
         }
     }
 }

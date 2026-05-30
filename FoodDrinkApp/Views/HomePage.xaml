@@ -54,7 +54,7 @@
 
         <RefreshView Grid.Row="3"
                      IsRefreshing="{Binding IsBusy}"
-                     Command="{Binding LoadRecipesCommand}">
+                     Command="{Binding RefreshRecipesCommand}">
             <CollectionView ItemsSource="{Binding Recipes}"
                             SelectionMode="None"
                             SemanticProperties.Description="Recipe list">

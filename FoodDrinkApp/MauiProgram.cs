@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Media;
 using FoodDrinkApp.Services;
 using FoodDrinkApp.ViewModels;

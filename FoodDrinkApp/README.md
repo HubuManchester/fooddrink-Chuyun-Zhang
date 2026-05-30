@@ -36,6 +36,19 @@ FoodDrinkApp/
 └── Resources/Styles/
 ```
 
+## Coding standards
+
+This project follows common C# / .NET conventions:
+
+| Area | Convention used |
+|------|-----------------|
+| Formatting | `.editorconfig`, 4-space indentation, file-scoped namespaces |
+| Naming | PascalCase types/methods; `_camelCase` private fields; `Async` suffix |
+| Architecture | MVVM, dependency injection, `IDataStore` abstraction |
+| Patterns | `RelayCommand`, centralized `HardwareService`, `RunSafeAsync` error handling |
+| Navigation | Route names in `Helpers/NavigationRoutes.cs` |
+| Documentation | XML comments on models, services, and interfaces |
+
 ## Requirements
 
 - .NET 9 SDK
