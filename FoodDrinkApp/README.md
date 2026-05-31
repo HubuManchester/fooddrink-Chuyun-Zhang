@@ -84,14 +84,26 @@ dotnet build -t:Run -f net9.0-android
 - Large text and high contrast toggles in Settings
 - User-friendly validation and permission error messages
 
-## Assessment checklist
+## Submission requirements (marking checklist)
 
-- [ ] Demo app on Android phone emulator
-- [ ] Demo same app on Android tablet emulator (or Windows)
+| Requirement | Status | Evidence in this repo |
+|-------------|--------|------------------------|
+| Complete .NET MAUI project (builds) | Yes | `FoodDrinkApp.csproj`, `dotnet build -f net9.0-android` or Windows target |
+| Naming, formatting, comments | Yes | `.editorconfig`, XML docs on services, `NavigationRoutes.cs` |
+| Hardware APIs (4+ recommended) | Yes (5) | `Services/HardwareService.cs` — camera, GPS, microphone, TTS, vibration/haptics |
+| Core features + novel interaction | Yes | List, search, detail, favorites, settings; **voice search** and **location-based recommendations** |
+| Error handling (try-catch + user message) | Yes | `ViewModels/BaseViewModel.RunSafeAsync`; empty-search validation in `HomeViewModel` |
+| GitHub commits + README | Yes | Multiple commits on `main`; this file + root `README.md` |
+| Demo video covers all of the above | You record | See [VIDEO_DEMO_SCRIPT.md](VIDEO_DEMO_SCRIPT.md) |
+
+## Assessment checklist (demo video)
+
+- [ ] Demo app on Android phone emulator (or Windows)
 - [ ] Show list, detail, search, favorites, settings
-- [ ] Show all 5 hardware features
-- [ ] Show validation (empty search) and permission denial handling
-- [ ] Push regular commits to GitHub
+- [ ] Show all **5** hardware features (Hardware tab + voice on Home)
+- [ ] Show empty-search validation and a permission-denied case
+- [ ] Briefly show code: `HardwareService.cs`, `BaseViewModel.cs`, MVVM folders
+- [ ] Show GitHub commit history in the browser
 - [ ] Submit repository link on Moodle
 
 ## Author
