@@ -1,0 +1,68 @@
+[
+  {
+    "id": "1",
+    "name": "Mediterranean Salad Bowl",
+    "description": "Fresh vegetables, olives, and feta with lemon dressing.",
+    "emoji": "🥗",
+    "calories": 320,
+    "category": "Salad",
+    "region": "Mediterranean",
+    "ingredients": "Cucumber, tomato, red onion, olives, feta, olive oil, lemon",
+    "steps": "1. Chop cucumber, tomato, and red onion.\n2. Add olives and feta.\n3. Drizzle olive oil and lemon juice.\n4. Toss and serve chilled."
+  },
+  {
+    "id": "2",
+    "name": "Classic Spaghetti Carbonara",
+    "description": "Creamy Italian pasta with pancetta and parmesan.",
+    "emoji": "🍝",
+    "calories": 540,
+    "category": "Pasta",
+    "region": "Europe",
+    "ingredients": "Spaghetti, pancetta, eggs, parmesan, black pepper",
+    "steps": "1. Boil spaghetti until al dente.\n2. Fry pancetta until crisp.\n3. Mix eggs, parmesan, and pepper.\n4. Combine pasta, pancetta, and egg mixture off heat."
+  },
+  {
+    "id": "3",
+    "name": "Chicken Teriyaki Rice",
+    "description": "Glazed chicken served over steamed rice with vegetables.",
+    "emoji": "🍱",
+    "calories": 480,
+    "category": "Main",
+    "region": "Asia",
+    "ingredients": "Chicken breast, teriyaki sauce, rice, broccoli",
+    "steps": "1. Marinate chicken in teriyaki sauce.\n2. Pan-fry until cooked through.\n3. Steam rice and blanch broccoli.\n4. Plate rice, vegetables, and sliced chicken."
+  },
+  {
+    "id": "4",
+    "name": "Berry Smoothie",
+    "description": "Blended berries, banana, and yogurt for a quick breakfast.",
+    "emoji": "🥤",
+    "calories": 210,
+    "category": "Drink",
+    "region": "Americas",
+    "ingredients": "Mixed berries, banana, yogurt, milk",
+    "steps": "1. Add berries, banana, and yogurt to a blender.\n2. Add a splash of milk or water.\n3. Blend until smooth.\n4. Serve immediately over ice."
+  },
+  {
+    "id": "5",
+    "name": "Vegetable Curry",
+    "description": "Aromatic coconut curry with seasonal vegetables.",
+    "emoji": "🍛",
+    "calories": 390,
+    "category": "Curry",
+    "region": "Asia",
+    "ingredients": "Onion, garlic, ginger, curry paste, coconut milk, mixed vegetables",
+    "steps": "1. Sauté onion, garlic, and ginger.\n2. Stir in curry paste and coconut milk.\n3. Simmer vegetables until tender.\n4. Garnish with coriander and serve with rice."
+  },
+  {
+    "id": "6",
+    "name": "Avocado Toast",
+    "description": "Wholegrain toast topped with smashed avocado and chili flakes.",
+    "emoji": "🥑",
+    "calories": 280,
+    "category": "Breakfast",
+    "region": "Americas",
+    "ingredients": "Wholegrain bread, avocado, lime, chili flakes, salt",
+    "steps": "1. Toast bread until golden.\n2. Mash avocado with lime and salt.\n3. Spread on toast.\n4. Top with chili flakes and optional egg."
+  }
+]

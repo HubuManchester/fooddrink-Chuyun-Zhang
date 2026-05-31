@@ -4,13 +4,14 @@ A .NET MAUI mobile app for exploring recipes and nutrition, built for the **Food
 
 ## Features
 
-- Recipe list with calories, categories, search, and favorites
-- Recipe detail view with step-by-step instructions
-- SQLite offline cache for recipes and favorite persistence
-- Location-based regional recommendations
-- Voice search using the device microphone
-- Dedicated hardware demo page for assessment video walkthrough
-- Accessibility settings: large text, high contrast, light/dark/system theme
+- Recipe list with search, category filter, favorites, and pull-to-refresh
+- Recipe detail with ingredients, steps, edit, and delete
+- **CRUD**: add and edit recipes on `AddEditRecipePage`
+- **Dual data load**: `recipes.json` / SQLite first, then Mock API on failure (see `SqliteDataStore.cs`)
+- Location-based recommendations and voice search
+- **System light/dark theme** follows OS setting (`UserAppTheme = Unspecified`)
+- Hardware: camera, GPS (latitude/longitude), microphone, TTS with **Stop** button, vibration
+- Accessibility: large text and high contrast
 
 ## Mobile hardware used
 

@@ -6,16 +6,16 @@
              xmlns:converters="clr-namespace:FoodDrinkApp.Converters"
              x:Class="FoodDrinkApp.Views.HomePage"
              x:DataType="vm:HomeViewModel"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:FavoriteGlyphConverter x:Key="FavoriteGlyphConverter" />
-            <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Padding="16" RowSpacing="12">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto" Padding="16" RowSpacing="10">
         <Label Grid.Row="0"
                Text="Discover recipes, nutrition, and nearby ideas"
                FontSize="{DynamicResource SubtitleFontSize}"
@@ -26,84 +26,69 @@
             <SearchBar Grid.Column="0"
                        Text="{Binding SearchText}"
                        Placeholder="Search recipes"
-                       SearchCommand="{Binding SearchCommand}"
-                       SemanticProperties.Hint="Enter a recipe name to search" />
-            <Button Grid.Column="1"
-                    Text="Search"
-                    Command="{Binding SearchCommand}"
-                    SemanticProperties.Hint="Search recipes by name" />
-            <Button Grid.Column="2"
-                    Text="🎤"
-                    Command="{Binding VoiceSearchCommand}"
-                    SemanticProperties.Hint="Start voice search for recipes" />
+                       SearchCommand="{Binding SearchCommand}" />
+            <Button Grid.Column="1" Text="Search" Command="{Binding SearchCommand}" />
+            <Button Grid.Column="2" Text="🎤" Command="{Binding VoiceSearchCommand}" />
         </Grid>
 
-        <HorizontalStackLayout Grid.Row="2" Spacing="8">
-            <Button Text="Nearby"
-                    Command="{Binding NearbyRecommendationsCommand}"
-                    SemanticProperties.Hint="Show recipes recommended for your current location" />
-            <Button Text="Refresh"
-                    Command="{Binding RefreshRecipesCommand}"
-                    SemanticProperties.Hint="Refresh recipe list from cache" />
-            <Switch IsToggled="{Binding ShowFavoritesOnly}"
-                    SemanticProperties.Description="Show favorites only" />
-            <Label Text="Favorites only"
-                   VerticalOptions="Center"
-                   FontSize="{DynamicResource BaseFontSize}" />
-        </HorizontalStackLayout>
+        <Grid Grid.Row="2" ColumnDefinitions="*,Auto" ColumnSpacing="8">
+            <Picker Grid.Column="0"
+                    Title="Category"
+                    ItemsSource="{Binding Categories}"
+                    SelectedIndex="{Binding SelectedCategoryIndex}" />
+            <Button Grid.Column="1" Text="+ Add" Command="{Binding AddRecipeCommand}" />
+        </Grid>
 
-        <RefreshView Grid.Row="3"
+        <VerticalStackLayout Grid.Row="3" Spacing="8">
+            <HorizontalStackLayout Spacing="8">
+                <Button Text="Nearby" Command="{Binding NearbyRecommendationsCommand}" />
+                <Button Text="Refresh" Command="{Binding RefreshRecipesCommand}" />
+                <Switch IsToggled="{Binding ShowFavoritesOnly}" />
+                <Label Text="Favorites" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Text="Demo: simulate local JSON failure (then Mock API)"
+                       FontSize="12"
+                       TextColor="{DynamicResource SecondaryTextColor}"
+                       VerticalOptions="Center" />
+                <Switch Grid.Column="1" IsToggled="{Binding SimulateLocalFailure}" />
+            </Grid>
+        </VerticalStackLayout>
+
+        <RefreshView Grid.Row="4"
                      IsRefreshing="{Binding IsBusy}"
                      Command="{Binding RefreshRecipesCommand}">
-            <CollectionView ItemsSource="{Binding Recipes}"
-                            SelectionMode="None"
-                            SemanticProperties.Description="Recipe list">
+            <CollectionView ItemsSource="{Binding Recipes}" SelectionMode="None">
                 <CollectionView.EmptyView>
-                    <Label Text="No recipes to display yet."
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           FontSize="{DynamicResource BaseFontSize}" />
+                    <Label Text="No recipes to display yet." HorizontalOptions="Center" VerticalOptions="Center" />
                 </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:FoodItem">
-                        <Border Margin="0,0,0,12"
-                                Padding="16"
+                        <Border Margin="0,0,0,12" Padding="16"
                                 BackgroundColor="{DynamicResource CardBackgroundColor}"
-                                Stroke="{DynamicResource AccentColor}"
-                                StrokeThickness="1">
+                                Stroke="{DynamicResource AccentColor}" StrokeThickness="1">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="16" />
                             </Border.StrokeShape>
                             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-                                <Label Grid.Column="0"
-                                       Text="{Binding Emoji}"
-                                       FontSize="36"
-                                       VerticalOptions="Center"
-                                       SemanticProperties.Description="{Binding Name}" />
+                                <Label Grid.Column="0" Text="{Binding Emoji}" FontSize="36" VerticalOptions="Center" />
                                 <VerticalStackLayout Grid.Column="1" Spacing="4">
-                                    <Label Text="{Binding Name}"
-                                           FontAttributes="Bold"
+                                    <Label Text="{Binding Name}" FontAttributes="Bold"
                                            FontSize="{DynamicResource SubtitleFontSize}"
                                            TextColor="{DynamicResource PrimaryTextColor}" />
-                                    <Label Text="{Binding Description}"
-                                           FontSize="{DynamicResource BaseFontSize}"
-                                           TextColor="{DynamicResource SecondaryTextColor}"
-                                           LineBreakMode="WordWrap" />
-                                    <Label Text="{Binding Calories, StringFormat='{0} kcal'}"
-                                           FontSize="{DynamicResource BaseFontSize}"
-                                           TextColor="{DynamicResource AccentColor}" />
+                                    <Label Text="{Binding Description}" FontSize="{DynamicResource BaseFontSize}"
+                                           TextColor="{DynamicResource SecondaryTextColor}" LineBreakMode="WordWrap" />
+                                    <Label Text="{Binding Category, StringFormat='Category: {0}'}"
+                                           FontSize="{DynamicResource BaseFontSize}" />
                                 </VerticalStackLayout>
                                 <VerticalStackLayout Grid.Column="2" Spacing="8">
                                     <Button Text="{Binding IsFavorite, Converter={StaticResource FavoriteGlyphConverter}}"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ToggleFavoriteCommand}"
                                             CommandParameter="{Binding .}"
-                                            BackgroundColor="Transparent"
-                                            TextColor="{DynamicResource AccentColor}"
-                                            SemanticProperties.Hint="Toggle favorite recipe" />
+                                            BackgroundColor="Transparent" TextColor="{DynamicResource AccentColor}" />
                                     <Button Text="Open"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenRecipeCommand}"
-                                            CommandParameter="{Binding .}"
-                                            SemanticProperties.Hint="Open recipe details" />
+                                            CommandParameter="{Binding .}" />
                                 </VerticalStackLayout>
                             </Grid>
                         </Border>
@@ -112,15 +97,10 @@
             </CollectionView>
         </RefreshView>
 
-        <ActivityIndicator Grid.Row="4"
-                           IsRunning="{Binding IsBusy}"
-                           IsVisible="{Binding IsBusy}"
-                           Color="{DynamicResource AccentColor}" />
-
-        <Label Grid.Row="4"
-               Text="{Binding StatusMessage}"
-               FontSize="{DynamicResource BaseFontSize}"
-               TextColor="{DynamicResource SecondaryTextColor}"
-               LineBreakMode="WordWrap" />
+        <VerticalStackLayout Grid.Row="5" Spacing="4">
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{DynamicResource AccentColor}" />
+            <Label Text="{Binding StatusMessage}" FontSize="{DynamicResource BaseFontSize}"
+                   TextColor="{DynamicResource SecondaryTextColor}" LineBreakMode="WordWrap" />
+        </VerticalStackLayout>
     </Grid>
 </ContentPage>

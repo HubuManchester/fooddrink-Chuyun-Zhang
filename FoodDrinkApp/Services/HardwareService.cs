@@ -13,6 +13,9 @@ namespace FoodDrinkApp.Services;
 public class HardwareService
 {
     private readonly ISpeechToText _speechToText;
+    private CancellationTokenSource? _speechCts;
+
+    public bool IsSpeaking { get; private set; }
 
     public HardwareService(ISpeechToText speechToText)
     {
@@ -68,7 +71,35 @@ public class HardwareService
             throw new ArgumentException("There is no text to read aloud.", nameof(text));
         }
 
-        await TextToSpeech.Default.SpeakAsync(text);
+        StopSpeaking();
+        _speechCts = new CancellationTokenSource();
+        IsSpeaking = true;
+
+        try
+        {
+            await TextToSpeech.Default.SpeakAsync(text, cancelToken: _speechCts.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            // User stopped playback.
+        }
+        finally
+        {
+            IsSpeaking = false;
+        }
+    }
+
+    public void StopSpeaking()
+    {
+        if (_speechCts is null)
+        {
+            return;
+        }
+
+        _speechCts.Cancel();
+        _speechCts.Dispose();
+        _speechCts = null;
+        IsSpeaking = false;
     }
 
     public void Vibrate()

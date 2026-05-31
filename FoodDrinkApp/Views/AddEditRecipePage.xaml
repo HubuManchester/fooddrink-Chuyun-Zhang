@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FoodDrinkApp.ViewModels"
+             xmlns:converters="clr-namespace:FoodDrinkApp.Converters"
+             x:Class="FoodDrinkApp.Views.AddEditRecipePage"
+             x:DataType="vm:AddEditRecipeViewModel"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView Padding="16">
+        <VerticalStackLayout Spacing="12">
+            <Entry Text="{Binding Name}" Placeholder="Recipe name *" />
+            <Entry Text="{Binding Emoji}" Placeholder="Emoji (e.g. 🍝)" />
+            <Editor Text="{Binding Description}" Placeholder="Short description" AutoSize="TextChanges" MinimumHeightRequest="60" />
+            <Editor Text="{Binding Ingredients}" Placeholder="Ingredients (comma separated) *" AutoSize="TextChanges" MinimumHeightRequest="80" />
+            <Editor Text="{Binding Steps}" Placeholder="Cooking steps *" AutoSize="TextChanges" MinimumHeightRequest="120" />
+            <Entry Text="{Binding CaloriesText}" Placeholder="Calories (kcal)" Keyboard="Numeric" />
+            <Label Text="Category" FontAttributes="Bold" />
+            <Picker ItemsSource="{Binding Categories}" SelectedIndex="{Binding SelectedCategoryIndex}" />
+            <Image Source="{Binding ImagePath}"
+                   HeightRequest="120"
+                   Aspect="AspectFill"
+                   IsVisible="{Binding ImagePath, Converter={StaticResource StringNotEmptyConverter}}" />
+            <Button Text="Save recipe" Command="{Binding SaveCommand}" />
+            <Button Text="Cancel" Command="{Binding CancelCommand}" />
+            <Label Text="{Binding StatusMessage}" TextColor="{DynamicResource SecondaryTextColor}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,24 +1,28 @@
-# Data source configuration
+# Mock API configuration
 
-The current FoodDrinkApp uses **local seed data** and a **SQLite offline cache** instead of a remote API.
+## Dual-load strategy (local first, API fallback)
 
-## Current data flow
+`SqliteDataStore.LoadRecipesAsync()` implements:
 
-1. `Services/MockDataStore.cs` provides seed recipes on first launch.
-2. `Services/SqliteDataStore.cs` stores recipes and favorites in `fooddrink.db3`.
-3. Refresh simulates a network update while preserving favorite flags.
+1. **SQLite cache** (if data exists)
+2. **recipes.json** embedded resource
+3. **catch** → **Mock API** (`MockApiRecipeClient`)
+4. **catch** → built-in seed data
 
-## Optional: mockapi.io integration
+Pull-to-refresh tries the Mock API first, then falls back to local JSON.
 
-If you extend the project to use [mockapi.io](https://mockapi.io), create a `foods` resource with fields such as:
+## Configure mockapi.io
 
-| Field | Type | Description |
-|---|---|---|
-| name | String | Recipe name |
-| category | String | Category |
-| description | String | Short description |
-| calories | Number | Calories |
-| steps | String | Cooking steps |
-| region | String | Region for location-based recommendations |
+1. Create a `recipes` resource at [mockapi.io](https://mockapi.io).
+2. Set the endpoint in code before the app loads data:
 
-Configure the API URL in a service class and keep local SQLite as a fallback for offline use.
+```csharp
+// MauiProgram.cs or App startup
+MockApiOptions.RecipesEndpoint = "https://YOUR_PROJECT.mockapi.io/api/v1/recipes";
+```
+
+Suggested JSON fields per item: `name`, `description`, `emoji`, `calories`, `category`, `region`, `ingredients`, `steps`.
+
+## Demo local failure switch
+
+On the **Recipes** tab, enable **Demo: simulate local JSON failure** to force the Mock API path for your screencast (shows try/catch fallback).

@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FoodDrinkApp.Helpers;
 using FoodDrinkApp.Models;
 using FoodDrinkApp.Services;
 
@@ -16,6 +17,9 @@ public partial class RecipeDetailViewModel : BaseViewModel
 
     [ObservableProperty]
     private string _recipeId = string.Empty;
+
+    [ObservableProperty]
+    private bool _isSpeaking;
 
     public RecipeDetailViewModel(IDataStore dataStore, HardwareService hardwareService)
     {
@@ -63,10 +67,20 @@ public partial class RecipeDetailViewModel : BaseViewModel
 
         await RunSafeAsync(async () =>
         {
-            var text = $"{Recipe.Name}. {Recipe.Description}. Steps. {Recipe.Steps.Replace('\n', ' ')}";
+            var text = $"{Recipe.Name}. Ingredients: {Recipe.Ingredients}. Steps: {Recipe.Steps.Replace('\n', ' ')}";
+            IsSpeaking = true;
             await _hardwareService.SpeakAsync(text);
-            StatusMessage = "Reading recipe steps aloud.";
+            IsSpeaking = false;
+            StatusMessage = "Finished reading aloud.";
         }, "Text-to-speech failed");
+    }
+
+    [RelayCommand]
+    private void StopReadingAloud()
+    {
+        _hardwareService.StopSpeaking();
+        IsSpeaking = false;
+        StatusMessage = "Reading stopped.";
     }
 
     [RelayCommand]
@@ -86,5 +100,43 @@ public partial class RecipeDetailViewModel : BaseViewModel
                 ? "Recipe saved to favorites."
                 : "Recipe removed from favorites.";
         }, "Unable to update favorite");
+    }
+
+    [RelayCommand]
+    private async Task EditRecipeAsync()
+    {
+        if (Recipe is null)
+        {
+            return;
+        }
+
+        await Shell.Current.GoToAsync($"{NavigationRoutes.AddEditRecipe}?{NavigationRoutes.RecipeIdQueryKey}={Recipe.Id}");
+    }
+
+    [RelayCommand]
+    private async Task DeleteRecipeAsync()
+    {
+        if (Recipe is null || Shell.Current is null)
+        {
+            return;
+        }
+
+        var confirm = await Shell.Current.DisplayAlert(
+            "Delete recipe",
+            $"Delete \"{Recipe.Name}\" permanently?",
+            "Delete",
+            "Cancel");
+
+        if (!confirm)
+        {
+            return;
+        }
+
+        await RunSafeAsync(async () =>
+        {
+            await _dataStore.DeleteRecipeAsync(Recipe.Id);
+            StatusMessage = "Recipe deleted.";
+            await Shell.Current.GoToAsync("..");
+        }, "Unable to delete recipe");
     }
 }

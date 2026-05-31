@@ -53,7 +53,7 @@ public partial class HardwareDemoViewModel : BaseViewModel
                 return;
             }
 
-            LocationText = $"Latitude {location.Latitude:F4}, Longitude {location.Longitude:F4}";
+            LocationText = $"GPS: Latitude {location.Latitude:F6}, Longitude {location.Longitude:F6}";
             var recommendations = await _dataStore.GetNearbyRecommendationsAsync(location.Latitude, location.Longitude);
             StatusMessage = recommendations.Count == 0
                 ? "Location acquired, but no regional recipes were found."
@@ -69,6 +69,13 @@ public partial class HardwareDemoViewModel : BaseViewModel
             await _hardwareService.SpeakAsync(SampleRecipeSteps);
             StatusMessage = "Recipe steps are being read aloud.";
         }, "Text-to-speech failed");
+    }
+
+    [RelayCommand]
+    private void StopReading()
+    {
+        _hardwareService.StopSpeaking();
+        StatusMessage = "Reading stopped.";
     }
 
     [RelayCommand]

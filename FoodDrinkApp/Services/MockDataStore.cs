@@ -18,6 +18,7 @@ public static class MockDataStore
             Calories = 320,
             Category = "Salad",
             Region = "Mediterranean",
+            Ingredients = "Cucumber, tomato, red onion, olives, feta, olive oil, lemon",
             Steps = "1. Chop cucumber, tomato, and red onion.\n2. Add olives and feta.\n3. Drizzle olive oil and lemon juice.\n4. Toss and serve chilled."
         },
         new FoodItem
@@ -29,6 +30,7 @@ public static class MockDataStore
             Calories = 540,
             Category = "Pasta",
             Region = "Europe",
+            Ingredients = "Spaghetti, pancetta, eggs, parmesan, black pepper",
             Steps = "1. Boil spaghetti until al dente.\n2. Fry pancetta until crisp.\n3. Mix eggs, parmesan, and pepper.\n4. Combine pasta, pancetta, and egg mixture off heat."
         },
         new FoodItem
@@ -40,6 +42,7 @@ public static class MockDataStore
             Calories = 480,
             Category = "Main",
             Region = "Asia",
+            Ingredients = "Chicken breast, teriyaki sauce, rice, broccoli",
             Steps = "1. Marinate chicken in teriyaki sauce.\n2. Pan-fry until cooked through.\n3. Steam rice and blanch broccoli.\n4. Plate rice, vegetables, and sliced chicken."
         },
         new FoodItem
@@ -51,6 +54,7 @@ public static class MockDataStore
             Calories = 210,
             Category = "Drink",
             Region = "Americas",
+            Ingredients = "Mixed berries, banana, yogurt, milk",
             Steps = "1. Add berries, banana, and yogurt to a blender.\n2. Add a splash of milk or water.\n3. Blend until smooth.\n4. Serve immediately over ice."
         },
         new FoodItem
@@ -62,6 +66,7 @@ public static class MockDataStore
             Calories = 390,
             Category = "Curry",
             Region = "Asia",
+            Ingredients = "Onion, garlic, ginger, curry paste, coconut milk, vegetables",
             Steps = "1. Sauté onion, garlic, and ginger.\n2. Stir in curry paste and coconut milk.\n3. Simmer vegetables until tender.\n4. Garnish with coriander and serve with rice."
         },
         new FoodItem
@@ -73,6 +78,7 @@ public static class MockDataStore
             Calories = 280,
             Category = "Breakfast",
             Region = "Americas",
+            Ingredients = "Wholegrain bread, avocado, lime, chili flakes, salt",
             Steps = "1. Toast bread until golden.\n2. Mash avocado with lime and salt.\n3. Spread on toast.\n4. Top with chili flakes and optional egg."
         }
     ];

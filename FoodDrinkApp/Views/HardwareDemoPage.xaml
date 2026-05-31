@@ -45,6 +45,10 @@
                     Command="{Binding ReadRecipeCommand}"
                     SemanticProperties.Hint="Read sample recipe steps aloud" />
 
+            <Button Text="Stop reading"
+                    Command="{Binding StopReadingCommand}"
+                    SemanticProperties.Hint="Stop text-to-speech playback" />
+
             <Button Text="Trigger vibration / haptics"
                     Command="{Binding VibrateCommand}"
                     SemanticProperties.Hint="Trigger device vibration or haptic feedback" />

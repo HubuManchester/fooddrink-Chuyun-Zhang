@@ -7,21 +7,26 @@ namespace FoodDrinkApp.Services;
 /// </summary>
 public interface IDataStore
 {
-    /// <summary>Initializes the database and seeds data on first launch.</summary>
-    Task InitializeAsync();
+    /// <summary>Loads recipes: local JSON/SQLite first; Mock API on failure (see implementation).</summary>
+    Task<RecipeLoadResult> LoadRecipesAsync(bool forceRefresh = false);
 
-    /// <summary>Returns all recipes, optionally simulating a network refresh.</summary>
     Task<IReadOnlyList<FoodItem>> GetRecipesAsync(bool forceRefresh = false);
 
-    /// <summary>Returns a single recipe by identifier.</summary>
     Task<FoodItem?> GetRecipeAsync(string id);
 
-    /// <summary>Searches recipes by name, description, or category.</summary>
     Task<IReadOnlyList<FoodItem>> SearchRecipesAsync(string query);
 
-    /// <summary>Toggles the favorite flag for a recipe.</summary>
+    Task<IReadOnlyList<FoodItem>> GetRecipesByCategoryAsync(string? category);
+
     Task ToggleFavoriteAsync(string id);
 
-    /// <summary>Returns recipes recommended for the given coordinates.</summary>
+    Task AddRecipeAsync(FoodItem item);
+
+    Task UpdateRecipeAsync(FoodItem item);
+
+    Task DeleteRecipeAsync(string id);
+
     Task<IReadOnlyList<FoodItem>> GetNearbyRecommendationsAsync(double latitude, double longitude);
+
+    IReadOnlyList<string> GetCategories();
 }

@@ -17,7 +17,26 @@ public static class AccessibilityHelper
         }
 
         ApplyFontScale(settings.UseLargeFont);
+        ApplySystemThemeColors();
         ApplyContrast(settings.UseHighContrast);
+    }
+
+    /// <summary>Updates resource colors when the OS switches light/dark mode.</summary>
+    public static void ApplySystemThemeColors()
+    {
+        if (Application.Current?.Resources is null)
+        {
+            return;
+        }
+
+        var isDark = Application.Current.RequestedTheme == AppTheme.Dark;
+        Application.Current.Resources["PageBackgroundColor"] = isDark ? Color.FromArgb("#1F1F1F") : Colors.White;
+        Application.Current.Resources["PrimaryTextColor"] = isDark ? Colors.White : Color.FromArgb("#1A1A1A");
+        Application.Current.Resources["SecondaryTextColor"] = isDark ? Color.FromArgb("#D0D0D0") : Color.FromArgb("#555555");
+        Application.Current.Resources["CardBackgroundColor"] = isDark ? Color.FromArgb("#2A2A2A") : Color.FromArgb("#F7F7F7");
+        Application.Current.Resources["AccentColor"] = isDark ? Color.FromArgb("#81C784") : Color.FromArgb("#2E7D32");
+        Application.Current.Resources["PrimaryButtonColor"] = isDark ? Color.FromArgb("#388E3C") : Color.FromArgb("#2E7D32");
+        Application.Current.Resources["PrimaryButtonTextColor"] = Colors.White;
     }
 
     public static void ApplyFontScale(bool useLargeFont)
@@ -51,21 +70,7 @@ public static class AccessibilityHelper
             return;
         }
 
-        Application.Current.Resources["PageBackgroundColor"] = Application.Current.RequestedTheme == AppTheme.Dark
-            ? Color.FromArgb("#1F1F1F")
-            : Colors.White;
-        Application.Current.Resources["PrimaryTextColor"] = Application.Current.RequestedTheme == AppTheme.Dark
-            ? Colors.White
-            : Color.FromArgb("#1A1A1A");
-        Application.Current.Resources["SecondaryTextColor"] = Application.Current.RequestedTheme == AppTheme.Dark
-            ? Color.FromArgb("#D0D0D0")
-            : Color.FromArgb("#555555");
-        Application.Current.Resources["CardBackgroundColor"] = Application.Current.RequestedTheme == AppTheme.Dark
-            ? Color.FromArgb("#2A2A2A")
-            : Color.FromArgb("#F7F7F7");
-        Application.Current.Resources["AccentColor"] = Color.FromArgb("#2E7D32");
-        Application.Current.Resources["PrimaryButtonColor"] = Color.FromArgb("#2E7D32");
-        Application.Current.Resources["PrimaryButtonTextColor"] = Colors.White;
+        ApplySystemThemeColors();
     }
 
     public static double GetFontScale(bool useLargeFont) => useLargeFont ? LargeFontScale : 1.0;

@@ -1,4 +1,4 @@
-using FoodDrinkApp.Helpers;
+﻿using FoodDrinkApp.Helpers;
 using FoodDrinkApp.Services;
 
 namespace FoodDrinkApp;
@@ -14,11 +14,19 @@ public partial class App : Application
         _shell = shell;
         _accessibilitySettings = accessibilitySettings;
 
+        // Follow system light/dark theme (course requirement).
+        UserAppTheme = AppTheme.Unspecified;
+
         AccessibilityHelper.ApplySettings(_accessibilitySettings);
 
         _accessibilitySettings.LargeFontChanged += (_, _) => AccessibilityHelper.ApplySettings(_accessibilitySettings);
         _accessibilitySettings.HighContrastChanged += (_, _) => AccessibilityHelper.ApplySettings(_accessibilitySettings);
-        _accessibilitySettings.ThemeChanged += (_, _) => AccessibilityHelper.ApplySettings(_accessibilitySettings);
+
+        RequestedThemeChanged += (_, _) =>
+        {
+            AccessibilityHelper.ApplySystemThemeColors();
+            AccessibilityHelper.ApplyContrast(_accessibilitySettings.UseHighContrast);
+        };
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

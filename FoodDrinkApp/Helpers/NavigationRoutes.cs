@@ -6,5 +6,6 @@ namespace FoodDrinkApp.Helpers;
 public static class NavigationRoutes
 {
     public const string RecipeDetail = nameof(Views.RecipeDetailPage);
+    public const string AddEditRecipe = nameof(Views.AddEditRecipePage);
     public const string RecipeIdQueryKey = "RecipeId";
 }

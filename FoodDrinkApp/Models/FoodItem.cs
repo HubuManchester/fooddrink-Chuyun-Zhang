@@ -10,8 +10,10 @@ public class FoodItem
     public string Description { get; set; } = string.Empty;
     public string Emoji { get; set; } = "🍽️";
     public int Calories { get; set; }
+    public string Ingredients { get; set; } = string.Empty;
     public string Steps { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
+    public string? ImagePath { get; set; }
     public string Region { get; set; } = string.Empty;
     public bool IsFavorite { get; set; }
 }

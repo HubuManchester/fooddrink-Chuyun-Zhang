@@ -11,6 +11,7 @@ public partial class HomeViewModel : BaseViewModel
 {
     private readonly IDataStore _dataStore;
     private readonly HardwareService _hardwareService;
+    private List<FoodItem> _allRecipes = [];
 
     [ObservableProperty]
     private string _searchText = string.Empty;
@@ -18,12 +19,21 @@ public partial class HomeViewModel : BaseViewModel
     [ObservableProperty]
     private bool _showFavoritesOnly;
 
+    [ObservableProperty]
+    private int _selectedCategoryIndex;
+
+    [ObservableProperty]
+    private bool _simulateLocalFailure;
+
     public ObservableCollection<FoodItem> Recipes { get; } = [];
+
+    public IReadOnlyList<string> Categories { get; }
 
     public HomeViewModel(IDataStore dataStore, HardwareService hardwareService)
     {
         _dataStore = dataStore;
         _hardwareService = hardwareService;
+        Categories = _dataStore.GetCategories();
         Title = "Recipe Explorer";
     }
 
@@ -32,9 +42,11 @@ public partial class HomeViewModel : BaseViewModel
     {
         await RunSafeAsync(async () =>
         {
-            var recipes = await _dataStore.GetRecipesAsync();
-            ReplaceRecipes(recipes);
-            StatusMessage = $"Loaded {Recipes.Count} recipes from offline cache.";
+            MockApiOptions.SimulateLocalFailureForDemo = SimulateLocalFailure;
+            var result = await _dataStore.LoadRecipesAsync();
+            _allRecipes = result.Recipes.ToList();
+            ApplyFilters();
+            StatusMessage = $"Loaded {Recipes.Count} recipes from {result.DataSource}.";
         }, "Unable to load recipes");
     }
 
@@ -43,9 +55,10 @@ public partial class HomeViewModel : BaseViewModel
     {
         await RunSafeAsync(async () =>
         {
-            var recipes = await _dataStore.GetRecipesAsync(forceRefresh: true);
-            ReplaceRecipes(recipes);
-            StatusMessage = "Recipe list refreshed successfully.";
+            var result = await _dataStore.LoadRecipesAsync(forceRefresh: true);
+            _allRecipes = result.Recipes.ToList();
+            ApplyFilters();
+            StatusMessage = $"Refreshed {Recipes.Count} recipes from {result.DataSource}.";
         }, "Unable to refresh recipes");
     }
 
@@ -103,7 +116,7 @@ public partial class HomeViewModel : BaseViewModel
             var recommendations = await _dataStore.GetNearbyRecommendationsAsync(location.Latitude, location.Longitude);
             ReplaceRecipes(recommendations);
             StatusMessage =
-                $"Showing {recommendations.Count} nearby suggestions for {location.Latitude:F2}, {location.Longitude:F2}.";
+                $"GPS: {location.Latitude:F4}, {location.Longitude:F4} — {recommendations.Count} regional suggestions.";
         }, "Location recommendations failed");
     }
 
@@ -138,18 +151,40 @@ public partial class HomeViewModel : BaseViewModel
         await Shell.Current.GoToAsync($"{NavigationRoutes.RecipeDetail}?{NavigationRoutes.RecipeIdQueryKey}={item.Id}");
     }
 
-    partial void OnShowFavoritesOnlyChanged(bool value)
+    [RelayCommand]
+    private async Task AddRecipeAsync()
     {
-        _ = ApplyFavoriteFilterAsync();
+        await Shell.Current.GoToAsync(NavigationRoutes.AddEditRecipe);
     }
 
-    private async Task ApplyFavoriteFilterAsync()
+    partial void OnShowFavoritesOnlyChanged(bool value) => ApplyFilters();
+
+    partial void OnSelectedCategoryIndexChanged(int value) => ApplyFilters();
+
+    partial void OnSimulateLocalFailureChanged(bool value)
     {
-        await RunSafeAsync(async () =>
+        MockApiOptions.SimulateLocalFailureForDemo = value;
+        StatusMessage = value
+            ? "Demo mode: next load will skip local JSON and try Mock API."
+            : "Demo mode off: local JSON loads first.";
+    }
+
+    private void ApplyFilters()
+    {
+        IEnumerable<FoodItem> filtered = _allRecipes;
+
+        if (SelectedCategoryIndex > 0 && SelectedCategoryIndex < Categories.Count)
         {
-            var recipes = await _dataStore.GetRecipesAsync();
-            ReplaceRecipes(ShowFavoritesOnly ? recipes.Where(r => r.IsFavorite) : recipes);
-        }, "Unable to filter favorites");
+            var category = Categories[SelectedCategoryIndex];
+            filtered = filtered.Where(r => string.Equals(r.Category, category, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (ShowFavoritesOnly)
+        {
+            filtered = filtered.Where(r => r.IsFavorite);
+        }
+
+        ReplaceRecipes(filtered);
     }
 
     private void ReplaceRecipes(IEnumerable<FoodItem> recipes)
