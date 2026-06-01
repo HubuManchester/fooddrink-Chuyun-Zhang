@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<helpers:ThemedContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:FoodDrinkApp.Helpers"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="FoodDrinkApp.Views.CameraCapturePage"
+             Title="Camera"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
+
+    <Grid RowDefinitions="*,Auto,Auto" Padding="16" RowSpacing="12">
+        <Border Grid.Row="0"
+                Stroke="{DynamicResource AccentColor}"
+                StrokeThickness="2"
+                BackgroundColor="Black">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12" />
+            </Border.StrokeShape>
+            <toolkit:CameraView x:Name="PreviewCamera"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Fill" />
+        </Border>
+
+        <Label Grid.Row="1"
+               Text="Adjust the preview, then tap Take photo when you are ready."
+               TextColor="{DynamicResource SecondaryTextColor}"
+               FontSize="{DynamicResource BaseFontSize}"
+               HorizontalTextAlignment="Center" />
+
+        <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="12">
+            <Button Grid.Column="0"
+                    Text="Cancel"
+                    Clicked="OnCancelClicked"
+                    BackgroundColor="{DynamicResource CardBackgroundColor}"
+                    TextColor="{DynamicResource PrimaryTextColor}" />
+            <Button Grid.Column="1"
+                    x:Name="CaptureButton"
+                    Text="Take photo"
+                    Clicked="OnCaptureClicked"
+                    BackgroundColor="{DynamicResource PrimaryButtonColor}"
+                    TextColor="{DynamicResource PrimaryButtonTextColor}" />
+        </Grid>
+    </Grid>
+</helpers:ThemedContentPage>

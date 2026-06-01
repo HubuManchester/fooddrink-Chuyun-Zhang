@@ -22,35 +22,11 @@ public class HardwareService
         _speechToText = speechToText;
     }
 
-    public async Task<string?> TakePhotoAsync()
-    {
-        if (!MediaPicker.Default.IsCaptureSupported)
-        {
-            throw new FeatureNotSupportedException("Camera capture is not supported on this device.");
-        }
+    /// <summary>Opens the in-app camera preview; user taps Take photo when ready (never opens gallery).</summary>
+    public Task<string?> TakePhotoAsync() => CameraCaptureNavigation.CaptureAsync();
 
-        var status = await Permissions.RequestAsync<Permissions.Camera>();
-        if (status != PermissionStatus.Granted)
-        {
-            throw new PermissionException("Camera permission was denied.");
-        }
-
-        var photo = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
-        {
-            Title = "Capture food photo"
-        });
-
-        if (photo is null)
-        {
-            return null;
-        }
-
-        var localPath = Path.Combine(FileSystem.CacheDirectory, $"{Guid.NewGuid():N}.jpg");
-        await using var source = await photo.OpenReadAsync();
-        await using var destination = File.OpenWrite(localPath);
-        await source.CopyToAsync(destination);
-        return localPath;
-    }
+    /// <summary>Opens gallery or file picker only (never opens camera).</summary>
+    public async Task<string?> PickPhotoAsync() => await PickPhotoInternalAsync();
 
     public async Task<Location?> GetCurrentLocationAsync()
     {
@@ -77,7 +53,38 @@ public class HardwareService
 
         try
         {
-            await TextToSpeech.Default.SpeakAsync(text, cancelToken: _speechCts.Token);
+#if WINDOWS
+            await Platforms.Windows.WindowsTextToSpeech.SpeakAsync(text, _speechCts.Token);
+#elif ANDROID
+            await Platforms.Android.AndroidTextToSpeechHelper.SpeakAsync(text, _speechCts.Token);
+#else
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                var locales = await TextToSpeech.Default.GetLocalesAsync();
+                if (locales is null || !locales.Any())
+                {
+                    throw new FeatureNotSupportedException("No text-to-speech voice is installed on this device.");
+                }
+
+                var locale = locales.FirstOrDefault(l => l.Language.StartsWith("en", StringComparison.OrdinalIgnoreCase))
+                    ?? locales.First();
+
+                var options = new SpeechOptions
+                {
+                    Pitch = 1.0f,
+                    Volume = 1.0f,
+                    Locale = locale
+                };
+
+                await TextToSpeech.Default.SpeakAsync(text, options, _speechCts.Token);
+            });
+#endif
+        }
+        catch (TimeoutException)
+        {
+            StopSpeaking();
+            throw new InvalidOperationException(
+                "Reading timed out. Check that your device volume is up and text-to-speech is enabled.");
         }
         catch (OperationCanceledException)
         {
@@ -91,14 +98,18 @@ public class HardwareService
 
     public void StopSpeaking()
     {
-        if (_speechCts is null)
+#if WINDOWS
+        Platforms.Windows.WindowsTextToSpeech.Stop();
+#elif ANDROID
+        Platforms.Android.AndroidTextToSpeechHelper.Stop();
+#endif
+        if (_speechCts is not null)
         {
-            return;
+            _speechCts.Cancel();
+            _speechCts.Dispose();
+            _speechCts = null;
         }
 
-        _speechCts.Cancel();
-        _speechCts.Dispose();
-        _speechCts = null;
         IsSpeaking = false;
     }
 
@@ -159,5 +170,58 @@ public class HardwareService
         {
             _speechToText.RecognitionResultCompleted -= OnRecognitionCompleted;
         }
+    }
+
+    private static async Task<string?> CapturePhotoInternalAsync()
+    {
+        var status = await Permissions.RequestAsync<Permissions.Camera>();
+        if (status != PermissionStatus.Granted)
+        {
+            throw new PermissionException("Camera permission was denied.");
+        }
+
+        var photo = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
+        {
+            Title = "Capture food photo"
+        });
+
+        return photo is null ? null : await SavePhotoAsync(photo);
+    }
+
+    private static async Task<string?> PickPhotoInternalAsync()
+    {
+        var photo = await MediaPicker.Default.PickPhotoAsync(new MediaPickerOptions
+        {
+            Title = "Select a food photo"
+        });
+
+        return photo is null ? null : await SavePhotoAsync(photo);
+    }
+
+    private static async Task<string> SavePhotoAsync(FileResult photo)
+    {
+        var localPath = Path.Combine(FileSystem.CacheDirectory, $"{Guid.NewGuid():N}.jpg");
+        await using var source = await photo.OpenReadAsync();
+        await using var destination = File.OpenWrite(localPath);
+        await source.CopyToAsync(destination);
+        return localPath;
+    }
+
+    /// <summary>Copies a picked/captured image into app storage so it can be used as a recipe cover photo.</summary>
+    public static async Task<string> SaveRecipeCoverImageAsync(string sourcePath)
+    {
+        if (string.IsNullOrWhiteSpace(sourcePath) || !File.Exists(sourcePath))
+        {
+            throw new FileNotFoundException("The selected photo could not be found.", sourcePath);
+        }
+
+        var directory = Path.Combine(FileSystem.AppDataDirectory, "recipe_images");
+        Directory.CreateDirectory(directory);
+        var destinationPath = Path.Combine(directory, $"{Guid.NewGuid():N}.jpg");
+
+        await using var source = File.OpenRead(sourcePath);
+        await using var destination = File.Create(destinationPath);
+        await source.CopyToAsync(destination);
+        return destinationPath;
     }
 }

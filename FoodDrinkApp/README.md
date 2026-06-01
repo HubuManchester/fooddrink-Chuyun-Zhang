@@ -17,7 +17,7 @@ A .NET MAUI mobile app for exploring recipes and nutrition, built for the **Food
 
 | Hardware | Where it is used |
 |----------|------------------|
-| Camera | Capture a food photo on the Hardware Demo page |
+| Camera | Pick/take a photo and set it as a **recipe cover** (list + detail); also on Add/Edit recipe |
 | Location / Geolocation | Nearby recipe recommendations on Home and Hardware Demo |
 | Microphone / Speech recognition | Voice search on Home; speech demo on Hardware Demo |
 | Text-to-speech | Read recipe steps on Detail and Hardware Demo pages |
@@ -73,6 +73,7 @@ dotnet build -t:Run -f net9.0-android
 ### Emulator tips for the demo video
 
 - **Camera**: use the emulator extended controls to load a sample image.
+- **Text-to-speech (no sound on emulator)**: install **Google Text-to-speech** from Play Store; enable it under Settings → System → Languages → Text-to-speech output; turn up **Media volume** on the emulator side panel; if still silent, cold boot the AVD or set `hw.audioOutput=yes` in the emulator `config.ini`.
 - **Location**: set a custom GPS location in emulator settings (e.g. Manchester or Rome).
 - **Microphone**: enable host microphone passthrough in the emulator.
 - **Vibration**: show the code in `HardwareService.Vibrate()` if the emulator cannot vibrate.

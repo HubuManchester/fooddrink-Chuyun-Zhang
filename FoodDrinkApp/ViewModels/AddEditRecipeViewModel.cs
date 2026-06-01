@@ -9,6 +9,7 @@ namespace FoodDrinkApp.ViewModels;
 public partial class AddEditRecipeViewModel : BaseViewModel
 {
     private readonly IDataStore _dataStore;
+    private readonly HardwareService _hardwareService;
 
     [ObservableProperty]
     private string _recipeId = string.Empty;
@@ -42,10 +43,45 @@ public partial class AddEditRecipeViewModel : BaseViewModel
 
     public bool IsEditMode => !string.IsNullOrWhiteSpace(RecipeId);
 
-    public AddEditRecipeViewModel(IDataStore dataStore)
+    public AddEditRecipeViewModel(IDataStore dataStore, HardwareService hardwareService)
     {
         _dataStore = dataStore;
+        _hardwareService = hardwareService;
         Title = "Add Recipe";
+    }
+
+    [RelayCommand]
+    private async Task PickCoverPhotoAsync()
+    {
+        await RunSafeAsync(async () =>
+        {
+            var path = await _hardwareService.PickPhotoAsync();
+            if (path is null)
+            {
+                StatusMessage = "No cover photo selected.";
+                return;
+            }
+
+            ImagePath = await HardwareService.SaveRecipeCoverImageAsync(path);
+            StatusMessage = "Cover photo selected from gallery.";
+        }, "Photo picker failed");
+    }
+
+    [RelayCommand]
+    private async Task TakeCoverPhotoAsync()
+    {
+        await RunSafeAsync(async () =>
+        {
+            var path = await _hardwareService.TakePhotoAsync();
+            if (path is null)
+            {
+                StatusMessage = "Cover photo capture cancelled.";
+                return;
+            }
+
+            ImagePath = await HardwareService.SaveRecipeCoverImageAsync(path);
+            StatusMessage = "Cover photo captured from camera.";
+        }, "Camera failed");
     }
 
     partial void OnRecipeIdChanged(string value)

@@ -1,8 +1,9 @@
+using FoodDrinkApp.Helpers;
 using FoodDrinkApp.ViewModels;
 
 namespace FoodDrinkApp.Views;
 
-public partial class HardwareDemoPage : ContentPage
+public partial class HardwareDemoPage : ThemedContentPage
 {
     public HardwareDemoPage(HardwareDemoViewModel viewModel)
     {

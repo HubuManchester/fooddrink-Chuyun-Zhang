@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<helpers:ThemedContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:FoodDrinkApp.Helpers"
              xmlns:vm="clr-namespace:FoodDrinkApp.ViewModels"
              xmlns:converters="clr-namespace:FoodDrinkApp.Converters"
              x:Class="FoodDrinkApp.Views.HardwareDemoPage"
              x:DataType="vm:HardwareDemoViewModel"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
 
-    <ContentPage.Resources>
+    <helpers:ThemedContentPage.Resources>
         <ResourceDictionary>
             <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter" />
         </ResourceDictionary>
-    </ContentPage.Resources>
+    </helpers:ThemedContentPage.Resources>
 
     <ScrollView Padding="16">
         <VerticalStackLayout Spacing="12">
@@ -19,34 +21,59 @@
                    FontSize="{DynamicResource SubtitleFontSize}"
                    TextColor="{DynamicResource SecondaryTextColor}"
                    SemanticProperties.HeadingLevel="Level1" />
+            <Label Text="Pick or take a food photo, then set it as a recipe cover — it appears on the recipe list and detail pages."
+                   FontSize="{DynamicResource BaseFontSize}"
+                   TextColor="{DynamicResource SecondaryTextColor}"
+                   LineBreakMode="WordWrap" />
 
-            <Button Text="Take food photo"
+            <Button Text="Take photo (camera)"
                     Command="{Binding TakePhotoCommand}"
-                    SemanticProperties.Hint="Open the camera to capture a food photo" />
+                    SemanticProperties.Hint="Open camera preview; tap Take photo on the next screen when ready" />
+            <Button Text="Pick image (gallery / file)"
+                    Command="{Binding PickPhotoCommand}"
+                    SemanticProperties.Hint="Choose an existing photo from gallery or files, not the camera" />
             <Image Source="{Binding PhotoPath}"
-                   HeightRequest="180"
-                   Aspect="AspectFill"
+                   HeightRequest="220"
+                   Aspect="AspectFit"
                    IsVisible="{Binding PhotoPath, Converter={StaticResource StringNotEmptyConverter}}"
                    SemanticProperties.Description="Captured food photo preview" />
+
+            <Button Text="Use as recipe cover photo"
+                    Command="{Binding AttachPhotoToRecipeCommand}"
+                    IsEnabled="{Binding PhotoPath, Converter={StaticResource StringNotEmptyConverter}}"
+                    BackgroundColor="{DynamicResource PrimaryButtonColor}"
+                    TextColor="{DynamicResource PrimaryButtonTextColor}"
+                    SemanticProperties.Hint="Save this photo as the cover image for a recipe" />
+            <Label Text="Step 2: after picking a photo, use the button above to attach it to a recipe (e.g. Avocado Toast)."
+                   FontSize="{DynamicResource BaseFontSize}"
+                   TextColor="{DynamicResource SecondaryTextColor}"
+                   LineBreakMode="WordWrap" />
 
             <Button Text="Get current location"
                     Command="{Binding GetLocationCommand}"
                     SemanticProperties.Hint="Request current GPS location" />
             <Label Text="{Binding LocationText}"
-                   FontSize="{DynamicResource BaseFontSize}" />
+                   FontSize="{DynamicResource BaseFontSize}"
+                   TextColor="{DynamicResource PrimaryTextColor}" />
 
             <Button Text="Recognize speech"
                     Command="{Binding RecognizeSpeechCommand}"
                     SemanticProperties.Hint="Use the microphone to recognize speech" />
             <Label Text="{Binding SpeechResult}"
-                   FontSize="{DynamicResource BaseFontSize}" />
+                   FontSize="{DynamicResource BaseFontSize}"
+                   TextColor="{DynamicResource PrimaryTextColor}" />
 
-            <Button Text="Read sample recipe"
+            <Button Text="Read sample recipe (speaker)"
                     Command="{Binding ReadRecipeCommand}"
-                    SemanticProperties.Hint="Read sample recipe steps aloud" />
+                    SemanticProperties.Hint="Read sample recipe steps aloud using text-to-speech" />
+            <Label Text="Uses text-to-speech (speaker). Not the same as Recognize speech (microphone). Turn up device volume."
+                   FontSize="{DynamicResource BaseFontSize}"
+                   TextColor="{DynamicResource SecondaryTextColor}"
+                   LineBreakMode="WordWrap" />
 
             <Button Text="Stop reading"
                     Command="{Binding StopReadingCommand}"
+                    IsVisible="{Binding IsSpeaking}"
                     SemanticProperties.Hint="Stop text-to-speech playback" />
 
             <Button Text="Trigger vibration / haptics"
@@ -62,4 +89,4 @@
                    TextColor="{DynamicResource SecondaryTextColor}" />
         </VerticalStackLayout>
     </ScrollView>
-</ContentPage>
+</helpers:ThemedContentPage>

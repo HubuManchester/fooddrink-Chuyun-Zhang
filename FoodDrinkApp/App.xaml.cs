@@ -1,4 +1,4 @@
-﻿using FoodDrinkApp.Helpers;
+using FoodDrinkApp.Helpers;
 using FoodDrinkApp.Services;
 
 namespace FoodDrinkApp;
@@ -26,7 +26,16 @@ public partial class App : Application
         {
             AccessibilityHelper.ApplySystemThemeColors();
             AccessibilityHelper.ApplyContrast(_accessibilitySettings.UseHighContrast);
+            RefreshVisiblePageThemes();
         };
+    }
+
+    private static void RefreshVisiblePageThemes()
+    {
+        if (Shell.Current?.CurrentPage is ThemedContentPage themedPage)
+        {
+            themedPage.ApplyTheme();
+        }
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

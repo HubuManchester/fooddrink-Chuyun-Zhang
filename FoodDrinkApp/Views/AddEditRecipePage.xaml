@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<helpers:ThemedContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:FoodDrinkApp.Helpers"
              xmlns:vm="clr-namespace:FoodDrinkApp.ViewModels"
              xmlns:converters="clr-namespace:FoodDrinkApp.Converters"
              x:Class="FoodDrinkApp.Views.AddEditRecipePage"
              x:DataType="vm:AddEditRecipeViewModel"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
 
-    <ContentPage.Resources>
+    <helpers:ThemedContentPage.Resources>
         <ResourceDictionary>
             <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter" />
         </ResourceDictionary>
-    </ContentPage.Resources>
+    </helpers:ThemedContentPage.Resources>
 
     <ScrollView Padding="16">
         <VerticalStackLayout Spacing="12">
@@ -23,13 +25,16 @@
             <Entry Text="{Binding CaloriesText}" Placeholder="Calories (kcal)" Keyboard="Numeric" />
             <Label Text="Category" FontAttributes="Bold" />
             <Picker ItemsSource="{Binding Categories}" SelectedIndex="{Binding SelectedCategoryIndex}" />
+            <Label Text="Cover photo (optional)" FontAttributes="Bold" TextColor="{DynamicResource PrimaryTextColor}" />
             <Image Source="{Binding ImagePath}"
-                   HeightRequest="120"
-                   Aspect="AspectFill"
+                   HeightRequest="140"
+                   Aspect="AspectFit"
                    IsVisible="{Binding ImagePath, Converter={StaticResource StringNotEmptyConverter}}" />
+            <Button Text="Pick cover from gallery" Command="{Binding PickCoverPhotoCommand}" />
+            <Button Text="Take cover photo" Command="{Binding TakeCoverPhotoCommand}" />
             <Button Text="Save recipe" Command="{Binding SaveCommand}" />
             <Button Text="Cancel" Command="{Binding CancelCommand}" />
             <Label Text="{Binding StatusMessage}" TextColor="{DynamicResource SecondaryTextColor}" />
         </VerticalStackLayout>
     </ScrollView>
-</ContentPage>
+</helpers:ThemedContentPage>

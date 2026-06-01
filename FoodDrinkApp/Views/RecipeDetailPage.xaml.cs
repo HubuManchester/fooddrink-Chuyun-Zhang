@@ -1,8 +1,9 @@
+using FoodDrinkApp.Helpers;
 using FoodDrinkApp.ViewModels;
 
 namespace FoodDrinkApp.Views;
 
-public partial class RecipeDetailPage : ContentPage
+public partial class RecipeDetailPage : ThemedContentPage
 {
     public RecipeDetailPage(RecipeDetailViewModel viewModel)
     {

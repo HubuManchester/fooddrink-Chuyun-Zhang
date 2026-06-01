@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<helpers:ThemedContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:FoodDrinkApp.Helpers"
              xmlns:vm="clr-namespace:FoodDrinkApp.ViewModels"
              x:Class="FoodDrinkApp.Views.SettingsPage"
              x:DataType="vm:SettingsViewModel"
@@ -11,6 +12,7 @@
         <VerticalStackLayout Spacing="16">
             <Label Text="Accessibility options"
                    FontSize="{DynamicResource TitleFontSize}"
+                   TextColor="{DynamicResource PrimaryTextColor}"
                    SemanticProperties.HeadingLevel="Level1" />
             <Label Text="Light and dark mode follow your device system setting automatically. Adjust text size and contrast below."
                    TextColor="{DynamicResource SecondaryTextColor}" />
@@ -22,11 +24,11 @@
                 </Border.StrokeShape>
                 <VerticalStackLayout Spacing="12">
                     <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="Large text" VerticalOptions="Center" />
+                        <Label Text="Large text" VerticalOptions="Center" TextColor="{DynamicResource PrimaryTextColor}" />
                         <Switch Grid.Column="1" IsToggled="{Binding UseLargeFont}" />
                     </Grid>
                     <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="High contrast" VerticalOptions="Center" />
+                        <Label Text="High contrast" VerticalOptions="Center" TextColor="{DynamicResource PrimaryTextColor}" />
                         <Switch Grid.Column="1" IsToggled="{Binding UseHighContrast}" />
                     </Grid>
                 </VerticalStackLayout>
@@ -36,4 +38,4 @@
             <Label Text="{Binding StatusMessage}" TextColor="{DynamicResource SecondaryTextColor}" />
         </VerticalStackLayout>
     </ScrollView>
-</ContentPage>
+</helpers:ThemedContentPage>

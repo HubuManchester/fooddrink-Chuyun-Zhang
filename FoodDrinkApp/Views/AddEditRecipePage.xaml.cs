@@ -1,8 +1,9 @@
+using FoodDrinkApp.Helpers;
 using FoodDrinkApp.ViewModels;
 
 namespace FoodDrinkApp.Views;
 
-public partial class AddEditRecipePage : ContentPage
+public partial class AddEditRecipePage : ThemedContentPage
 {
     public AddEditRecipePage(AddEditRecipeViewModel viewModel)
     {

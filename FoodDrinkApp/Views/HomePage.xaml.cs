@@ -1,8 +1,9 @@
+using FoodDrinkApp.Helpers;
 using FoodDrinkApp.ViewModels;
 
 namespace FoodDrinkApp.Views;
 
-public partial class HomePage : ContentPage
+public partial class HomePage : ThemedContentPage
 {
     public HomePage(HomeViewModel viewModel)
     {

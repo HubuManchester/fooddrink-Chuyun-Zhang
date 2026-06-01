@@ -65,14 +65,31 @@ public partial class RecipeDetailViewModel : BaseViewModel
             return;
         }
 
-        await RunSafeAsync(async () =>
+        if (IsBusy)
         {
-            var text = $"{Recipe.Name}. Ingredients: {Recipe.Ingredients}. Steps: {Recipe.Steps.Replace('\n', ' ')}";
+            await ShowAlertAsync("Please wait", "Another operation is still running. Try again in a moment.");
+            return;
+        }
+
+        try
+        {
+            IsBusy = true;
             IsSpeaking = true;
+            StatusMessage = "Reading aloud...";
+            var text = $"{Recipe.Name}. Ingredients: {Recipe.Ingredients}. Steps: {Recipe.Steps.Replace('\n', ' ')}";
             await _hardwareService.SpeakAsync(text);
-            IsSpeaking = false;
             StatusMessage = "Finished reading aloud.";
-        }, "Text-to-speech failed");
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Text-to-speech failed: {GetFriendlyMessage(ex)}";
+            await ShowAlertAsync("Something went wrong", StatusMessage);
+        }
+        finally
+        {
+            IsSpeaking = false;
+            IsBusy = false;
+        }
     }
 
     [RelayCommand]

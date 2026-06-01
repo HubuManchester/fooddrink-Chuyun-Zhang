@@ -41,7 +41,8 @@ public partial class BaseViewModel : ObservableObject
     protected static string GetFriendlyMessage(Exception ex) => ex switch
     {
         PermissionException => "Permission was denied. Please enable the feature in device settings and try again.",
-        FeatureNotSupportedException => "This feature is not available on the current device.",
+        FeatureNotSupportedException featureException => featureException.Message,
+        InvalidOperationException invalidOperation => invalidOperation.Message,
         ArgumentException argumentException => argumentException.Message,
         KeyNotFoundException => "The requested item could not be found.",
         _ => "Please try again. If the problem continues, restart the app."

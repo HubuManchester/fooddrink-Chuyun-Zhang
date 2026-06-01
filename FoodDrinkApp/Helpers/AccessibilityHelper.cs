@@ -37,6 +37,27 @@ public static class AccessibilityHelper
         Application.Current.Resources["AccentColor"] = isDark ? Color.FromArgb("#81C784") : Color.FromArgb("#2E7D32");
         Application.Current.Resources["PrimaryButtonColor"] = isDark ? Color.FromArgb("#388E3C") : Color.FromArgb("#2E7D32");
         Application.Current.Resources["PrimaryButtonTextColor"] = Colors.White;
+
+        ApplyShellChrome(isDark);
+    }
+
+    private static void ApplyShellChrome(bool isDark)
+    {
+        if (Shell.Current is null)
+        {
+            return;
+        }
+
+        var pageBackground = isDark ? Color.FromArgb("#1F1F1F") : Colors.White;
+        var tabBackground = isDark ? Color.FromArgb("#121212") : Colors.White;
+        var titleColor = isDark ? Colors.White : Color.FromArgb("#1A1A1A");
+        var unselected = isDark ? Color.FromArgb("#9E9E9E") : Color.FromArgb("#757575");
+
+        var shell = Shell.Current;
+        shell.BackgroundColor = pageBackground;
+        Shell.SetTabBarBackgroundColor(shell, tabBackground);
+        Shell.SetTabBarTitleColor(shell, titleColor);
+        Shell.SetTabBarUnselectedColor(shell, unselected);
     }
 
     public static void ApplyFontScale(bool useLargeFont)

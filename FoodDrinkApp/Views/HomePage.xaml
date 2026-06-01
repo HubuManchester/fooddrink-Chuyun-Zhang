@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<helpers:ThemedContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:FoodDrinkApp.Helpers"
              xmlns:vm="clr-namespace:FoodDrinkApp.ViewModels"
              xmlns:models="clr-namespace:FoodDrinkApp.Models"
              xmlns:converters="clr-namespace:FoodDrinkApp.Converters"
@@ -9,11 +10,12 @@
              Title="{Binding Title}"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
 
-    <ContentPage.Resources>
+    <helpers:ThemedContentPage.Resources>
         <ResourceDictionary>
             <converters:FavoriteGlyphConverter x:Key="FavoriteGlyphConverter" />
+            <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter" />
         </ResourceDictionary>
-    </ContentPage.Resources>
+    </helpers:ThemedContentPage.Resources>
 
     <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto" Padding="16" RowSpacing="10">
         <Label Grid.Row="0"
@@ -71,7 +73,13 @@
                                 <RoundRectangle CornerRadius="16" />
                             </Border.StrokeShape>
                             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-                                <Label Grid.Column="0" Text="{Binding Emoji}" FontSize="36" VerticalOptions="Center" />
+                                <Grid Grid.Column="0" WidthRequest="56" HeightRequest="56">
+                                    <Label Text="{Binding Emoji}" FontSize="32"
+                                           HorizontalOptions="Center" VerticalOptions="Center" />
+                                    <Image Source="{Binding ImagePath}"
+                                           Aspect="AspectFill"
+                                           IsVisible="{Binding ImagePath, Converter={StaticResource StringNotEmptyConverter}}" />
+                                </Grid>
                                 <VerticalStackLayout Grid.Column="1" Spacing="4">
                                     <Label Text="{Binding Name}" FontAttributes="Bold"
                                            FontSize="{DynamicResource SubtitleFontSize}"
@@ -103,4 +111,4 @@
                    TextColor="{DynamicResource SecondaryTextColor}" LineBreakMode="WordWrap" />
         </VerticalStackLayout>
     </Grid>
-</ContentPage>
+</helpers:ThemedContentPage>
