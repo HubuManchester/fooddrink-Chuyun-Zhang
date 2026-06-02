@@ -5,13 +5,11 @@ namespace FoodDrinkApp;
 
 public partial class App : Application
 {
-    private readonly AppShell _shell;
     private readonly AccessibilitySettingsService _accessibilitySettings;
 
-    public App(AppShell shell, AccessibilitySettingsService accessibilitySettings)
+    public App(AccessibilitySettingsService accessibilitySettings)
     {
         InitializeComponent();
-        _shell = shell;
         _accessibilitySettings = accessibilitySettings;
 
         // Follow system light/dark theme (course requirement).
@@ -40,6 +38,7 @@ public partial class App : Application
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        return new Window(_shell);
+        // Shell must be created here so MauiContext exists before tabs/pages load.
+        return new Window(new AppShell());
     }
 }

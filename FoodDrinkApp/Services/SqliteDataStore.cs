@@ -8,7 +8,7 @@ namespace FoodDrinkApp.Services;
 /// </summary>
 public class SqliteDataStore : IDataStore
 {
-    private const string DatabaseFileName = "fooddrink_v2.db3";
+    private const string DatabaseFileName = "fooddrink_v3.db3";
 
     private readonly MockApiRecipeClient _mockApiClient;
     private readonly SemaphoreSlim _initLock = new(1, 1);

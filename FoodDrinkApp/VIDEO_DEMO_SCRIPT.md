@@ -63,13 +63,19 @@ Markers do not run your code for marking — the screencast must show each item 
 - Toggle large text and high contrast.
 - Change app theme (light / dark / system).
 
-## 7. GitHub (30 s)
+## 7. Deployment — tablet (45 s)
+
+- Android Device Manager → start a **tablet** AVD (e.g. Pixel Tablet).
+- Run the same app on the tablet; show Recipes and Hardware tabs briefly.
+- Say: “Same MAUI project deploys to phone and tablet form factors.”
+
+## 8. GitHub (30 s)
 
 - Browser: `https://github.com/HubuManchester/fooddrink-Chuyun-Zhang`
 - Show **Commits** — multiple messages over time.
 - Show `README.md` and `FoodDrinkApp/` structure.
 
-## 8. Close (15 s)
+## 9. Close (15 s)
 
 - Restate app name and Food & Drink theme.
 - Mention Moodle submission link is the GitHub URL.

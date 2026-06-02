@@ -20,4 +20,21 @@
 2. Select **Windows Machine** or an **Android emulator**.
 3. Press **F5** to build and run.
 
-See [FoodDrinkApp/README.md](FoodDrinkApp/README.md) for features, hardware demo notes, and the assessment checklist.
+See [FoodDrinkApp/README.md](FoodDrinkApp/README.md) for features and hardware notes.
+
+## Before you submit (no video)
+
+- [SUBMISSION_CHECKLIST.md](SUBMISSION_CHECKLIST.md) — marking criteria mapped to files, tablet deployment, Moodle link
+- [ProjectDevelopmentGuide.md](ProjectDevelopmentGuide.md) — structure, key files, emulator tips
+- [Scripts/Push-EmulatorPhotos.ps1](Scripts/Push-EmulatorPhotos.ps1) — add a sample photo to the emulator gallery
+
+## Assessment summary
+
+| Area | Status in repo |
+|------|----------------|
+| 5× mobile hardware | Camera, GPS, microphone, TTS, vibration/haptics |
+| MVVM + code quality | Models / ViewModels / Views / Services |
+| Accessibility | 44pt targets, large text, high contrast, system theme |
+| CRUD + dual data load | SQLite + `recipes.json` + Mock API |
+| Deployment | Run on phone and tablet Android emulators |
+| GitHub | Commit history on `main` |

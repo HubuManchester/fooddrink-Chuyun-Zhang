@@ -86,27 +86,22 @@ dotnet build -t:Run -f net9.0-android
 - Large text and high contrast toggles in Settings
 - User-friendly validation and permission error messages
 
-## Submission requirements (marking checklist)
+## Submission (repository & code)
 
-| Requirement | Status | Evidence in this repo |
-|-------------|--------|------------------------|
-| Complete .NET MAUI project (builds) | Yes | `FoodDrinkApp.csproj`, `dotnet build -f net9.0-android` or Windows target |
-| Naming, formatting, comments | Yes | `.editorconfig`, XML docs on services, `NavigationRoutes.cs` |
-| Hardware APIs (4+ recommended) | Yes (5) | `Services/HardwareService.cs` — camera, GPS, microphone, TTS, vibration/haptics |
-| Core features + novel interaction | Yes | List, search, detail, favorites, settings; **voice search** and **location-based recommendations** |
-| Error handling (try-catch + user message) | Yes | `ViewModels/BaseViewModel.RunSafeAsync`; empty-search validation in `HomeViewModel` |
-| GitHub commits + README | Yes | Multiple commits on `main`; this file + root `README.md` |
-| Demo video covers all of the above | You record | See [VIDEO_DEMO_SCRIPT.md](VIDEO_DEMO_SCRIPT.md) |
+Full pre-submit list (excluding video): see [../SUBMISSION_CHECKLIST.md](../SUBMISSION_CHECKLIST.md) in the repo root.
 
-## Assessment checklist (demo video)
+| Requirement | Status | Evidence |
+|-------------|--------|----------|
+| .NET MAUI project builds | Yes | `FoodDrinkApp.csproj` |
+| Code quality (MVVM, naming) | Yes | `.editorconfig`, `Services/`, `ViewModels/` |
+| Hardware (5 APIs) | Yes | `Services/HardwareService.cs` |
+| Functionality + novel features | Yes | CRUD, voice search, nearby recommendations |
+| Validation & friendly errors | Yes | `BaseViewModel.RunSafeAsync`, `HomeViewModel` search validation |
+| Accessibility (WCAG-oriented) | Yes | 44pt targets, Settings, `AccessibilityHelper.cs` |
+| Deployment (phone + tablet) | Yes | Android targets; tablet AVD in Device Manager |
+| GitHub | Yes | Push to `fooddrink-Chuyun-Zhang` on `main` |
 
-- [ ] Demo app on Android phone emulator (or Windows)
-- [ ] Show list, detail, search, favorites, settings
-- [ ] Show all **5** hardware features (Hardware tab + voice on Home)
-- [ ] Show empty-search validation and a permission-denied case
-- [ ] Briefly show code: `HardwareService.cs`, `BaseViewModel.cs`, MVVM folders
-- [ ] Show GitHub commit history in the browser
-- [ ] Submit repository link on Moodle
+Demo video script (when you record): [VIDEO_DEMO_SCRIPT.md](VIDEO_DEMO_SCRIPT.md)
 
 ## Author
 

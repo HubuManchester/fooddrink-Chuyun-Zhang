@@ -7,23 +7,27 @@ FoodDrinkApp is a cross-platform .NET MAUI application for the **Food and Drink*
 Core capabilities:
 
 - Recipe list with search, refresh, and favorites filter
-- Recipe detail page with step-by-step instructions
-- SQLite offline cache for recipes and favorite persistence
+- Recipe detail with step-by-step instructions and read-aloud
+- Full **CRUD** (add, edit, delete recipes)
+- SQLite offline cache with `recipes.json` and Mock API fallback
 - Location-based regional recommendations
+- Recipe cover photos (gallery, camera, or bundled images)
 - Hardware demo page for camera, GPS, speech, TTS, and haptics
-- Accessibility settings for large text, high contrast, and theme selection
+- Accessibility: large text, high contrast, system light/dark theme
 
-## 2. Requirement coverage
+## 2. Assessment alignment (Dr Davison criteria)
 
-| Assessment area | Implementation |
-|---|---|
-| UI/UX and accessibility | XAML pages, tab navigation, semantic labels, theme support, large text and high contrast |
-| Mobile hardware | Camera, location, microphone/speech, text-to-speech, vibration/haptics |
-| Functionality | List, detail, search, favorites, settings, hardware demo |
-| Validation and errors | Empty search validation, permission handling, user-friendly alerts |
-| Code quality | MVVM structure with Models, ViewModels, Views, and Services |
-| Deployment | Android and Windows targets |
-| GitHub usage | Regular commits with clear messages |
+| Assessment area | Weight | Implementation |
+|-----------------|--------|----------------|
+| UI/UX & accessibility | 30% | XAML UI, WCAG-oriented 44pt targets, semantic labels, theme + contrast settings |
+| Mobile hardware | 20% | Five APIs in `HardwareService.cs` (camera, GPS, mic, TTS, vibration/haptics) |
+| Functionality | 20% | List, detail, CRUD, favorites, voice search, nearby recommendations |
+| Validation & errors | 10% | `BaseViewModel.RunSafeAsync`, form validation, permission-friendly alerts |
+| Code quality | 10% | MVVM, DI, `.editorconfig`, shared services, XML documentation |
+| Deployment | 5% | Android phone + **Android tablet** emulator (or second device) |
+| GitHub usage | 5% | This repo with README and iterative commits |
+
+See [SUBMISSION_CHECKLIST.md](SUBMISSION_CHECKLIST.md) for a pre-submit list (excluding video).
 
 ## 3. Project structure
 
@@ -32,29 +36,53 @@ FoodDrinkApp/
 ├── Models/
 ├── ViewModels/
 ├── Views/
-├── Services/
-├── Helpers/          (NavigationRoutes, AccessibilityHelper)
+├── Services/          HardwareService, SqliteDataStore, Mock API
+├── Helpers/           NavigationRoutes, AccessibilityHelper, ThemedContentPage
 ├── Converters/
-├── Platforms/
+├── Platforms/         Android TTS, Windows TTS, manifests
 └── Resources/
+    ├── Images/recipes/   Bundled cover photos
+    ├── Raw/recipes.json  Seed data
+    └── Styles/
 ```
 
 ## 4. Key files
 
-- `MauiProgram.cs` — dependency injection and app startup
-- `AppShell.xaml` — tab navigation (Recipes, Hardware, Settings)
-- `Services/SqliteDataStore.cs` — SQLite cache and favorites
-- `Services/HardwareService.cs` — camera, location, speech, TTS, haptics
-- `Services/MockDataStore.cs` — seed recipe data
-- `ViewModels/` — MVVM logic for each page
-- `Views/` — XAML user interface
+| File | Purpose |
+|------|---------|
+| `MauiProgram.cs` | DI registration |
+| `App.xaml.cs` | Theme + `CreateWindow` / AppShell startup |
+| `AppShell.xaml` | Tab navigation |
+| `Services/HardwareService.cs` | All hardware APIs |
+| `Services/SqliteDataStore.cs` | SQLite + local/API load |
+| `ViewModels/BaseViewModel.cs` | Error handling pattern |
+| `Helpers/AccessibilityHelper.cs` | WCAG-related resource updates |
 
-## 5. Demo video checklist
+## 5. Deployment
 
-- Explain the Food and Drink theme and app concept
-- Show recipe list, search, favorites, and detail pages
-- Demonstrate empty-search validation
-- Show all five hardware features on the Hardware Demo page
-- Show accessibility settings (large text, high contrast, theme)
-- Show Android and/or Windows deployment
-- Show GitHub commit history and README
+### Phone (primary)
+
+1. Open `FoodDrinkApp.sln`.
+2. Select a phone AVD (e.g. Pixel 7, API 34).
+3. F5 — grant camera, location, and microphone when prompted.
+
+### Tablet (deployment mark)
+
+1. Android Device Manager → **New** or **Start** a tablet AVD (e.g. Pixel Tablet).
+2. Select the tablet as run target → F5.
+3. Confirm all three tabs load (Recipes, Hardware, Settings).
+
+### Windows (optional)
+
+Use **Windows Machine** for reliable text-to-speech during demos.
+
+## 6. Emulator tips
+
+- **Gallery**: Do not drag files into the system photo picker. Drag to the emulator window, or run `Scripts/Push-EmulatorPhotos.ps1`.
+- **GPS**: Emulator extended controls → Location → custom coordinates (e.g. Manchester).
+- **TTS**: Enable Google Text-to-speech and media volume; use Windows if still silent.
+- **Vibration**: If the emulator cannot vibrate, markers accept showing `HardwareService.Vibrate()` in code.
+
+## 7. GitHub workflow
+
+Work in this repository only. Commit after each meaningful feature (English messages, your own author name). Push to `origin/main` before Moodle submission.

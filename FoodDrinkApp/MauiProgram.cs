@@ -44,7 +44,6 @@ public static class MauiProgram
         builder.Services.AddTransient<AddEditRecipePage>();
         builder.Services.AddTransient<HardwareDemoPage>();
         builder.Services.AddTransient<SettingsPage>();
-        builder.Services.AddSingleton<AppShell>();
 
 #if DEBUG
         builder.Logging.AddDebug();
