@@ -22,9 +22,3 @@ FoodDrinkApp_GitHub_Upload.zip
 # OS files
 Thumbs.db
 Desktop.ini
-
-# Local emulator-only samples (bundled covers live under Resources/Images/recipes/)
-FoodDrinkApp/Resources/Images/emulator_samples/
-
-# Local build redirection output is configured outside the repo:
-# C:\MauiBuild\FoodDrinkApp

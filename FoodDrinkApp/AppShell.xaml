@@ -8,15 +8,12 @@
 
     <TabBar>
         <ShellContent Title="Recipes"
-                      Icon="dotnet_bot.png"
                       ContentTemplate="{DataTemplate views:HomePage}"
                       Route="HomePage" />
         <ShellContent Title="Hardware"
-                      Icon="dotnet_bot.png"
                       ContentTemplate="{DataTemplate views:HardwareDemoPage}"
                       Route="HardwareDemoPage" />
         <ShellContent Title="Settings"
-                      Icon="dotnet_bot.png"
                       ContentTemplate="{DataTemplate views:SettingsPage}"
                       Route="SettingsPage" />
     </TabBar>
