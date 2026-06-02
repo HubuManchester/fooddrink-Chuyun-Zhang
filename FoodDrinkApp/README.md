@@ -70,6 +70,15 @@ dotnet build -f net9.0-android
 dotnet build -t:Run -f net9.0-android
 ```
 
+### Recipe covers vs gallery photo
+
+| Source | What you see |
+|--------|----------------|
+| **Built-in list** | Six coloured cover thumbnails (`Resources/Images/recipes/`) — Salad, Pasta, Teriyaki, etc. |
+| **Pick image** | Your **fish and chips** photo in the emulator gallery — run `Scripts/Push-EmulatorPhotos.ps1` after starting the emulator |
+
+Regenerate bundled covers (offline): `.\Scripts\Create-RecipeCovers.ps1`
+
 ### Emulator tips for the demo video
 
 - **Camera**: use the emulator extended controls to load a sample image.
