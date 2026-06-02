@@ -79,6 +79,8 @@ dotnet build -t:Run -f net9.0-android
 
 Regenerate bundled covers (offline): `.\Scripts\Create-RecipeCovers.ps1`
 
+**Important:** Image file names under `Resources/Images/` must be **all lowercase** (e.g. `teriyaki.png`, not `Teriyaki.png`), or the Android build will fail.
+
 ### Emulator tips for the demo video
 
 - **Camera**: use the emulator extended controls to load a sample image.
